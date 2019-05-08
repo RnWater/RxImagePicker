@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="RxImage.ToolbarTheme" parent="RxImage.AppTheme.NoActionBar">
+        <item name="titleTextColor">@color/rx_img_white</item>
+        <item name="android:textColorSecondary">@color/rx_img_white</item>
+        <item name="android:textColor">@color/rx_img_white</item>
+        <item name="android:background">@color/rx_img_cpd</item>
+    </style>
+    <style name="RxImagePreview.ToolbarTheme" parent="RxImage.AppTheme.NoActionBar">
+        <item name="titleTextColor">@color/rx_img_white</item>
+        <item name="android:textColorSecondary">@color/rx_img_white</item>
+        <item name="android:textColor">@color/rx_img_white</item>
+        <item name="android:background">@color/rx_img_tr_black</item>
+    </style>
+    <style name="RxImage.AppTheme.NoActionBar" parent="RxImage.AppTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:fitsSystemWindows">false</item>
+    </style>
+    <style name="RxImage.AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/rx_img_cp</item>
+        <item name="colorPrimaryDark">@color/rx_img_cpd</item>
+        <item name="colorAccent">@color/rx_img_ca</item>
+    </style>
+
+    <style name="RxImage_PopupAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/rx_picker_fade_in</item>
+        <item name="android:windowExitAnimation">@anim/rx_picker_fade_out</item>
+    </style>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="rx_img_translucent">#0000</color>
+    <color name="rx_img_cp">#000000</color>
+    <color name="rx_img_cpd">#ff212121</color>
+    <color name="rx_img_cpa">#55000000</color>
+    <color name="rx_img_ca">#ff4488</color>
+    <color name="rx_img_black">#000000</color>
+    <color name="rx_img_tr_black">#11000000</color>
+    <color name="rx_img_white">#ffffff</color>
+</resources>

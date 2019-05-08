@@ -1,6 +1,7 @@
 package com.sample.rx.imagepicker;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         imageView = findViewById(R.id.image);
+        imageView.setImageBitmap(BitmapFactory.decodeFile("/storage/0000-0000/DCIM/camera/IMG_20190508_211839.jpg"));
         multi = findViewById(R.id.multi);
         camera = findViewById(R.id.camera);
         single = findViewById(R.id.single);
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         );
         camera.setOnClickListener(v ->
                 RxImagePicker.with().startCamera(this).subscribe(image -> {
+                    Log.e("我的执行", "执行回调" + (image == null)+"-->"+image.path);
                     if (image != null) {
                         Glide.with(imageView.getContext()).load(image.path).asBitmap().into(imageView);
                     }

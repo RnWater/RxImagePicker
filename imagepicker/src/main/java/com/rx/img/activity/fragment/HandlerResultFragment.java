@@ -26,11 +26,9 @@ import static android.app.Activity.RESULT_OK;
  */
 public class HandlerResultFragment extends Fragment{
     PublishSubject<List<Image>> resultSubject = PublishSubject.create();
-    PublishSubject<Image> resultSingle = PublishSubject.create();
     BehaviorSubject<Boolean> attachSubject = BehaviorSubject.create();
 
     public static final int REQUEST_CODE = 0x00100;
-    public static final int CAMERA_REQUEST_CODE = 0x00200;
 
     public static HandlerResultFragment newInstance() {
         return new HandlerResultFragment();
@@ -38,9 +36,6 @@ public class HandlerResultFragment extends Fragment{
 
     public PublishSubject<List<Image>> getResultSubject() {
         return resultSubject;
-    }
-    public PublishSubject<Image> getSingleResult() {
-        return resultSingle;
     }
 
     public BehaviorSubject<Boolean> getAttachSubject() {
@@ -53,15 +48,6 @@ public class HandlerResultFragment extends Fragment{
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE && data != null) {
                 resultSubject.onNext(RxImagePickerManager.getInstance().getResult(data));
-            } else if (requestCode == CAMERA_REQUEST_CODE) {
-                File file = CameraHelper.getTakeImageFile();
-                CameraHelper.scanPic(getActivity(), file);
-                Image item = new Image();
-                item.id=0;
-                item.path=file.getAbsolutePath();
-                item.name=file.getName();
-                item.addTime=System.currentTimeMillis();
-                resultSingle.onNext(item);
             }
         }
     }

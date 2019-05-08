@@ -41,22 +41,24 @@ public class CameraHelper {
         fragment.startActivityForResult(takePictureIntent, requestCode);
     }
 
-    public static Intent take(Fragment fragment) {
+    public static void take(FragmentActivity activity,int requestCode) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         takePictureIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        if (takePictureIntent.resolveActivity(fragment.getContext().getPackageManager()) != null) {
+        Log.e("我的执行", "take");
+        if (takePictureIntent.resolveActivity(activity.getPackageManager()) != null) {
+            Log.e("我的执行", "takeIn");
             takeImageFile = new File(Environment.getExternalStorageDirectory(), "/DCIM/camera/");
             takeImageFile = createFile(takeImageFile, "IMG_", ".jpg");
             Uri uri;
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-                String authorities = ProvideManager.getFileProviderName(fragment.getContext());
-                uri = FileProvider.getUriForFile(fragment.getContext(), authorities, takeImageFile);
+                String authorities = ProvideManager.getFileProviderName(activity);
+                uri = FileProvider.getUriForFile(activity, authorities, takeImageFile);
             } else {
                 uri = Uri.fromFile(takeImageFile);
             }
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         }
-        return takePictureIntent;
+        activity.startActivityForResult(takePictureIntent, requestCode);
     }
 
     public static File getTakeImageFile() {

@@ -8,8 +8,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.TransitionInflater;
+import android.util.Log;
 
 import com.rx.img.activity.RxImagePickerActivity;
+import com.rx.img.activity.RxTranslucentActivity;
 import com.rx.img.activity.fragment.HandlerResultFragment;
 import com.rx.img.bean.Image;
 import com.rx.img.display.RxImagePickerLoader;
@@ -109,32 +112,20 @@ public class RxImagePicker {
         return getListItem(fragment);
     }
     /**
-     * start camera from fragment
+     * start camera
      */
     public Observable<Image> startCamera(Fragment fragment) {
-        return startCamera(fragment.getFragmentManager());
+        return getCameraPhoto(fragment.getActivity());
     }
     /**
-     * start camera from activity
+     * start camera
      */
-    public Observable<Image> startCamera(AppCompatActivity activity) {
-        return startCamera(activity.getSupportFragmentManager());
+    public Observable<Image> startCamera(FragmentActivity activity) {
+        return getCameraPhoto(activity);
     }
-    /**
-     * start camera from fragment
-     */
-    private Observable<Image> startCamera(FragmentManager fragmentManager) {
-        HandlerResultFragment fragment = (HandlerResultFragment) fragmentManager.findFragmentByTag(HandlerResultFragment.class.getSimpleName());
-        if (fragment == null) {
-            fragment = HandlerResultFragment.newInstance();
-            fragmentManager.beginTransaction().add(fragment, fragment.getClass().getSimpleName()).commit();
-        } else if (fragment.isDetached()) {
-            fragmentManager.beginTransaction().attach(fragment).commit();
-        }
-        return getCameraPhoto(fragment);
-    }
-    private Observable<Image> getCameraPhoto(final HandlerResultFragment finalFragment) {
-        return finalFragment.getAttachSubject().filter(new Predicate<Boolean>() {
+    private Observable<Image> getCameraPhoto(final FragmentActivity activity) {
+        activity.startActivity(new Intent(activity, RxTranslucentActivity.class));
+        return RxTranslucentActivity.attachSubject.filter(new Predicate<Boolean>() {
             @Override
             public boolean test(@NonNull Boolean aBoolean) throws Exception {
                 return aBoolean;
@@ -142,9 +133,8 @@ public class RxImagePicker {
         }).flatMap(new Function<Boolean, ObservableSource<Image>>() {
             @Override
             public ObservableSource<Image> apply(@NonNull Boolean aBoolean) throws Exception {
-                Intent intent = CameraHelper.take(finalFragment);
-                finalFragment.startActivityForResult(intent, HandlerResultFragment.CAMERA_REQUEST_CODE);
-                return finalFragment.getSingleResult();
+                Log.e("我的执行", "------>");
+                return RxTranslucentActivity.resultSingle;
 
             }
         }).take(1);
@@ -153,11 +143,13 @@ public class RxImagePicker {
         return finalFragment.getAttachSubject().filter(new Predicate<Boolean>() {
             @Override
             public boolean test(@NonNull Boolean aBoolean) throws Exception {
+                Log.e("我的执行", "getListItem");
                 return aBoolean;
             }
         }).flatMap(new Function<Boolean, ObservableSource<List<Image>>>() {
             @Override
             public ObservableSource<List<Image>> apply(@NonNull Boolean aBoolean) throws Exception {
+                Log.e("我的执行", "flatMap");
                 Intent intent = new Intent(finalFragment.getActivity(), RxImagePickerActivity.class);
                 finalFragment.startActivityForResult(intent, HandlerResultFragment.REQUEST_CODE);
                 return finalFragment.getResultSubject();

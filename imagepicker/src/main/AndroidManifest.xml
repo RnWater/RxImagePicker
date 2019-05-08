@@ -19,7 +19,9 @@
 
         <activity android:name=".activity.RxImagePickerActivity" />
         <activity android:name=".activity.PreviewActivity" />
-        <activity android:name=".activity.RxTranslucentActivity"></activity>
+        <activity android:name=".activity.RxTranslucentActivity"
+            android:theme="@style/Translucent"
+            ></activity>
     </application>
 
 </manifest>

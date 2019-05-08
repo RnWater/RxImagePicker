@@ -39,6 +39,7 @@ public class RxTranslucentActivity extends AppCompatActivity implements EasyPerm
      * 申请权限
      */
     private void requestPermission() {
+
         if (EasyPermissions.hasPermissions(this, Manifest.permission.CAMERA)
                 &&EasyPermissions.hasPermissions(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             attachSubject.onNext(true);

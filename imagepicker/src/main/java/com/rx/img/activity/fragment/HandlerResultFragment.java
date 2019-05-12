@@ -1,26 +1,15 @@
 package com.rx.img.activity.fragment;
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-
 import com.rx.img.bean.Image;
-import com.rx.img.bean.ImageFolder;
-import com.rx.img.manager.CameraHelper;
 import com.rx.img.manager.RxImagePickerManager;
-
-import java.io.File;
 import java.util.List;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
-import pub.devrel.easypermissions.EasyPermissions;
-
 import static android.app.Activity.RESULT_OK;
-
 /**
  * Created by henry on 2019/5/6.
  */

@@ -1,39 +1,27 @@
 package com.rx.img;
 
-import android.Manifest;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.TransitionInflater;
-import android.util.Log;
-
 import com.rx.img.activity.RxImagePickerActivity;
 import com.rx.img.activity.RxTranslucentActivity;
 import com.rx.img.activity.fragment.HandlerResultFragment;
 import com.rx.img.bean.Image;
 import com.rx.img.display.RxImagePickerLoader;
-import com.rx.img.manager.CameraHelper;
 import com.rx.img.manager.RxImagePickerManager;
 import com.rx.img.manager.RxPickerConfig;
-
 import java.util.List;
-
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
-import pub.devrel.easypermissions.EasyPermissions;
-
 /**
  * Created by henry on 2019/5/5.
  */
-
 public class RxImagePicker {
-    private static final int CAMERA_PERMISSION = 0x12345;
 
     private RxImagePicker(RxPickerConfig config) {
         RxImagePickerManager.getInstance().setConfig(config);
@@ -61,7 +49,7 @@ public class RxImagePicker {
         return with(new RxPickerConfig());
     }
     /**
-     * Set the selection mode 默认多选
+     * Set the selection mode 默认单选
      */
     public RxImagePicker single(boolean single) {
         RxImagePickerManager.getInstance().setMode(single ? RxPickerConfig.SINGLE_IMG : RxPickerConfig.MULTIPLE_IMG);
@@ -133,7 +121,6 @@ public class RxImagePicker {
         }).flatMap(new Function<Boolean, ObservableSource<Image>>() {
             @Override
             public ObservableSource<Image> apply(@NonNull Boolean aBoolean) throws Exception {
-                Log.e("我的执行", "------>");
                 return RxTranslucentActivity.resultSingle;
 
             }
@@ -143,13 +130,11 @@ public class RxImagePicker {
         return finalFragment.getAttachSubject().filter(new Predicate<Boolean>() {
             @Override
             public boolean test(@NonNull Boolean aBoolean) throws Exception {
-                Log.e("我的执行", "getListItem");
                 return aBoolean;
             }
         }).flatMap(new Function<Boolean, ObservableSource<List<Image>>>() {
             @Override
             public ObservableSource<List<Image>> apply(@NonNull Boolean aBoolean) throws Exception {
-                Log.e("我的执行", "flatMap");
                 Intent intent = new Intent(finalFragment.getActivity(), RxImagePickerActivity.class);
                 finalFragment.startActivityForResult(intent, HandlerResultFragment.REQUEST_CODE);
                 return finalFragment.getResultSubject();
